@@ -18,7 +18,7 @@ function App() {
     setResult(null)
     setError(null)
     try {
-      const res = await axios.post('http://localhost:5000/api/analyze', { code })
+      const res = await axios.post('https://code-visualizer-backend-1cp1.onrender.com/api/analyze', { code })
       setResult(res.data)
     } catch (err) {
       setError('Something went wrong. Is the backend running?')
