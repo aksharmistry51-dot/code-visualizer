@@ -31,7 +31,7 @@ function Home() {
           <div className="w-10 h-10 border-2 border-blue-400 rotate-45 flex items-center justify-center">
             <div className="w-4 h-4 bg-blue-400 rotate-45" />
           </div>
-          <h1 className="text-3xl font-bold text-white tracking-widest uppercase">
+         <h1 style={{fontFamily: 'Orbitron, monospace'}} className="text-3xl font-bold text-white tracking-widest uppercase">
             Code<span className="text-blue-400">Vision</span>
           </h1>
         </div>

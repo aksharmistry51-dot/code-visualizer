@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+* {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+h1, h2 {
+  font-family: 'Orbitron', monospace;
+}
+
+body {
+  background: #000;
+}
