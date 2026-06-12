@@ -1,6 +1,6 @@
 function FixSuggestion({ result }) {
   return (
-    <div className="border border-green-800 bg-green-950/20 p-5 shadow-[0_0_20px_rgba(0,255,100,0.1)]">
+    <div className="bg-green-950/30 rounded-lg p-5">
       <h2 className="text-green-400 font-mono font-bold text-sm uppercase tracking-widest mb-3 flex items-center gap-2">
         <span>Fix</span> How To Fix It
       </h2>

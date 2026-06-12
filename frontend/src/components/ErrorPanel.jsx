@@ -1,6 +1,6 @@
 function ErrorPanel({ result }) {
   return (
-    <div className="border border-red-800 bg-red-950/20 p-5 shadow-[0_0_20px_rgba(255,0,0,0.1)]">
+    <div className="bg-red-950/30 rounded-lg p-5">
       <h2 className="text-red-400 font-mono font-bold text-sm uppercase tracking-widest mb-3 flex items-center gap-2">
         <span>✗</span> Error Detected
       </h2>

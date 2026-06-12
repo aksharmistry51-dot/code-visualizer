@@ -1,15 +1,19 @@
 function StepTracker({ steps }) {
   if (!steps || steps.length === 0) return null
+
   return (
-    <div className="border border-blue-900 bg-black p-5">
+    <div className="bg-gray-950 rounded-lg p-5">
       <h2 className="text-yellow-400 font-mono font-bold text-sm uppercase tracking-widest mb-5 flex items-center gap-2">
-        <span>⬡</span> Step-by-step Execution
+        <span className="animate-pulse">⬡</span> Step-by-step Execution
       </h2>
       <div className="space-y-3">
         {steps.map((step, i) => (
-          <div key={i} className="border border-blue-900/50 bg-blue-950/10 p-4 hover:border-blue-700 transition-all duration-200">
+          <div
+            key={i}
+            className={`border border-blue-900/50 bg-blue-950/10 p-4 step-animate-${i + 1}`}
+          >
             <div className="flex items-center gap-3 mb-2">
-              <span className="text-blue-500 font-mono text-xs border border-blue-800 px-2 py-0.5">
+              <span className="font-mono text-xs border border-blue-800 text-blue-500 px-2 py-0.5">
                 STEP {step.step}
               </span>
               <code className="text-green-400 font-mono text-sm">{step.line}</code>
@@ -30,4 +34,5 @@ function StepTracker({ steps }) {
     </div>
   )
 }
+
 export default StepTracker

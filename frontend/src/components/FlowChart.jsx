@@ -2,7 +2,7 @@ function FlowChart({ steps, hasError }) {
   if (!steps || steps.length === 0) return null
 
   return (
-    <div className="border border-blue-900 bg-black p-6 animate-fade-in">
+    <div className="bg-gray-950 rounded-lg p-6">
       <h2 className="text-blue-400 font-mono font-bold text-lg mb-6 uppercase tracking-widest flex items-center gap-2">
         <span className="text-blue-500">▶</span> Execution Flow
       </h2>
