@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import axios from 'axios'
 import CodeInput from '../components/CodeInput'
 import StepTracker from '../components/StepTracker'
@@ -10,10 +10,25 @@ import FlowChart from '../components/FlowChart'
 
 function Analyzer() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const language = location.state?.language || 'javascript'
+
   const [code, setCode] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  const langLabels = {
+    javascript: 'JavaScript',
+    python: 'Python',
+    java: 'Java'
+  }
+
+  const langColors = {
+    javascript: 'text-yellow-400',
+    python: 'text-blue-400',
+    java: 'text-orange-400'
+  }
 
   const handleAnalyze = async () => {
     if (!code.trim()) return
@@ -21,9 +36,12 @@ function Analyzer() {
     setResult(null)
     setError(null)
     try {
-      const res = await axios.post('https://code-visualizer-backend-1cp1.onrender.com/api/analyze', { code })
+      const res = await axios.post('https://code-visualizer-backend-1cp1.onrender.com/api/analyze', {
+        code,
+        language: langLabels[language]
+      })
       setResult(res.data)
-    } catch (err) {
+    } catch (e) {
       setError('Something went wrong. Is the backend running?')
     }
     setLoading(false)
@@ -31,26 +49,33 @@ function Analyzer() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Navbar */}
-      <nav className="border-b border-blue-900 px-6 py-4 flex items-center justify-between">
+      <nav className="border-b border-gray-900 px-6 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
           <div className="w-6 h-6 border-2 border-blue-400 rotate-45 flex items-center justify-center">
             <div className="w-2 h-2 bg-blue-400 rotate-45" />
           </div>
-          <span className="text-white font-bold tracking-widest uppercase font-mono">
+          <span style={{fontFamily: 'Orbitron, monospace'}} className="text-white font-bold tracking-widest uppercase">
             Code<span className="text-blue-400">Vision</span>
           </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-          <span className="text-blue-400 font-mono text-xs uppercase tracking-widest">JavaScript Mode</span>
+          <span className={`font-mono text-xs uppercase tracking-widest ${langColors[language]}`}>
+            {langLabels[language]} Mode
+          </span>
         </div>
       </nav>
 
       <div className="max-w-5xl mx-auto px-4 py-8">
-        <CodeInput code={code} setCode={setCode} onAnalyze={handleAnalyze} loading={loading} />
+        <CodeInput
+          code={code}
+          setCode={setCode}
+          onAnalyze={handleAnalyze}
+          loading={loading}
+          language={langLabels[language]}
+        />
         {error && (
-          <p className="text-red-400 text-center mt-4 font-mono border border-red-900 py-2 px-4">
+          <p className="text-red-400 text-center mt-4 font-mono bg-red-950/30 py-2 px-4 rounded">
             ⚠ {error}
           </p>
         )}
