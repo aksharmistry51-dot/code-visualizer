@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 * {
+  font-family: 'Inter', sans-serif;
+}
+
+code, pre, .font-mono {
   font-family: 'JetBrains Mono', monospace;
 }
 
-h1, h2 {
-  font-family: 'Orbitron', monospace;
-}
-
 body {
-  background: #000;
+  background: #0B0F19;
 }
 
 @keyframes fadeSlideIn {

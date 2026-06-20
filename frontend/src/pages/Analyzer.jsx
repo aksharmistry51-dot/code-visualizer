@@ -24,10 +24,10 @@ function Analyzer() {
     java: 'Java'
   }
 
-  const langColors = {
-    javascript: 'text-yellow-400',
-    python: 'text-blue-400',
-    java: 'text-orange-400'
+  const langAccents = {
+    javascript: '#F7DF1E',
+    python: '#3776AB',
+    java: '#F89820'
   }
 
   const handleAnalyze = async () => {
@@ -48,19 +48,20 @@ function Analyzer() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <nav className="border-b border-gray-900 px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen text-white" style={{ background: '#0B0F19' }}>
+      {/* Navbar */}
+      <nav className="px-6 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid #252C42', background: '#111827' }}>
         <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')}>
-          <div className="w-6 h-6 border-2 border-blue-400 rotate-45 flex items-center justify-center">
-            <div className="w-2 h-2 bg-blue-400 rotate-45" />
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4F8CFF, #00D4FF)' }}>
+            <div className="w-3 h-3 bg-white rounded-sm"></div>
           </div>
-          <span style={{fontFamily: 'Orbitron, monospace'}} className="text-white font-bold tracking-widest uppercase">
-            Code<span className="text-blue-400">Vision</span>
+          <span className="text-lg font-bold tracking-tight" style={{ color: '#E5E7EB' }}>
+            CodeVision
           </span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
-          <span className={`font-mono text-xs uppercase tracking-widest ${langColors[language]}`}>
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#22C55E' }}></div>
+          <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: langAccents[language] }}>
             {langLabels[language]} Mode
           </span>
         </div>
@@ -74,13 +75,29 @@ function Analyzer() {
           loading={loading}
           language={langLabels[language]}
         />
+
         {error && (
-          <p className="text-red-400 text-center mt-4 font-mono bg-red-950/30 py-2 px-4 rounded">
-            ⚠ {error}
-          </p>
+          <div className="mt-4 px-4 py-3 rounded-xl text-sm font-medium" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid #EF4444', color: '#EF4444' }}>
+            {error}
+          </div>
         )}
+
+        {loading && (
+          <div className="mt-8 rounded-2xl p-6" style={{ background: '#151B2D', border: '1px solid #252C42' }}>
+            <p className="text-sm font-medium mb-4" style={{ color: '#94A3B8' }}>Analyzing your code...</p>
+            <div className="space-y-3">
+              {['Parsing Code', 'Detecting Issues', 'Understanding Logic', 'Building Execution Flow', 'Generating Fixes'].map((step, i) => (
+                <div key={i} className="flex items-center gap-3">
+                  <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: '#4F8CFF', animationDelay: `${i * 0.2}s` }}></div>
+                  <span className="text-sm" style={{ color: '#94A3B8' }}>{step}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {result && (
-          <div className="mt-8 space-y-6">
+          <div className="mt-8 space-y-4">
             <FlowSummary summary={result.flowSummary} />
             {result.hasError && <ErrorPanel result={result} />}
             {result.hasError && <FixSuggestion result={result} />}

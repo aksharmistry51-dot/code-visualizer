@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
@@ -5,76 +6,102 @@ function Home() {
   const navigate = useNavigate()
   const [text, setText] = useState('')
   const [selectedLang, setSelectedLang] = useState(null)
-  const fullText = 'Visualize. Debug. Understand.'
+
+  const fullText = 'Analyze Code. Understand Execution. Fix Bugs Faster.'
 
   useEffect(() => {
     let i = 0
     const interval = setInterval(() => {
       setText(fullText.slice(0, i))
       i++
-      if (i > fullText.length) clearInterval(interval)
-    }, 60)
+      if (i > fullText.length) {
+        clearInterval(interval)
+      }
+    }, 35)
     return () => clearInterval(interval)
   }, [])
 
   const languages = [
-    { id: 'javascript', label: 'JavaScript', color: 'yellow' },
-    { id: 'python', label: 'Python', color: 'blue' },
-    { id: 'java', label: 'Java', color: 'orange' },
+    { id: 'javascript', label: 'JavaScript', accent: '#F7DF1E' },
+    { id: 'python', label: 'Python', accent: '#3776AB' },
+    { id: 'java', label: 'Java', accent: '#F89820' }
   ]
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(0,149,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,149,255,0.05)_1px,transparent_1px)] bg-size-[50px_50px]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-500 rounded-full opacity-5 blur-3xl" />
+    <div className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden" style={{ background: '#0B0F19' }}>
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-20 blur-3xl" style={{ background: '#4F8CFF' }}></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full opacity-10 blur-3xl" style={{ background: '#00D4FF' }}></div>
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[60px_60px]"></div>
 
-      <div className="relative z-10 text-center px-4">
-        <div className="mb-6 flex items-center justify-center gap-3">
-          <div className="w-10 h-10 border-2 border-blue-400 rotate-45 flex items-center justify-center">
-            <div className="w-4 h-4 bg-blue-400 rotate-45" />
+      <div className="relative z-10 text-center px-4 max-w-3xl">
+        <div className="mb-8 flex items-center justify-center gap-3">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #4F8CFF 0%, #00D4FF 100%)' }}>
+            <div className="w-4 h-4 bg-white rounded-sm"></div>
           </div>
-          <h1 style={{fontFamily: 'Orbitron, monospace'}} className="text-3xl font-bold text-white tracking-widest uppercase">
-            Code<span className="text-blue-400">Vision</span>
-          </h1>
+          <span className="text-2xl font-bold tracking-tight" style={{ color: '#E5E7EB' }}>
+            CodeVision
+          </span>
         </div>
 
-        <p className="text-blue-300 text-xl font-mono mb-2 h-8">
-          {text}<span className="animate-pulse">|</span>
-        </p>
-        <p className="text-gray-500 text-sm mb-12 font-mono">
-          AI-powered code execution visualizer
+        <h1 className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight" style={{ color: '#E5E7EB', minHeight: '150px' }}>
+          {text}
+          <span className="animate-pulse" style={{ color: '#4F8CFF' }}>I</span>
+        </h1>
+
+        <p className="text-lg mb-12 max-w-xl mx-auto" style={{ color: '#94A3B8' }}>
+          AI-powered code analysis with visual execution tracking.
         </p>
 
-        <p className="text-gray-400 text-sm mb-4 font-mono uppercase tracking-widest">
+        <p className="text-xs mb-4 font-semibold uppercase" style={{ color: '#94A3B8', letterSpacing: '0.25em' }}>
           Select Language
         </p>
 
-        <div className="flex gap-4 justify-center mb-10">
-          {languages.map((lang) => (
-            <button
-              key={lang.id}
-              onClick={() => setSelectedLang(lang.id)}
-              className={`px-6 py-3 border font-mono text-sm uppercase tracking-wider transition-all duration-300 ${
-                selectedLang === lang.id
-                  ? 'border-blue-400 text-blue-400 bg-blue-400/10 shadow-[0_0_20px_rgba(0,149,255,0.3)]'
-                  : 'border-gray-600 text-gray-400 hover:border-blue-400 hover:text-blue-400'
-              }`}
-            >
-              {lang.label}
-            </button>
-          ))}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
+          {languages.map((lang) => {
+            const isSelected = selectedLang === lang.id
+            const bg = isSelected ? 'rgba(79,140,255,0.12)' : '#151B2D'
+            const bd = isSelected ? '1px solid #4F8CFF' : '1px solid #252C42'
+            const col = isSelected ? '#E5E7EB' : '#94A3B8'
+            return (
+              <button
+                key={lang.id}
+                onClick={() => setSelectedLang(lang.id)}
+                className="px-6 py-3 rounded-xl font-medium text-sm transition-all duration-300 hover:-translate-y-1"
+                style={{ background: bg, border: bd, color: col }}
+              >
+                <span className="inline-block w-2 h-2 rounded-full mr-2" style={{ background: lang.accent }}></span>
+                {lang.label}
+              </button>
+            )
+          })}
         </div>
 
-        <button
-          onClick={() => selectedLang && navigate('/analyze', { state: { language: selectedLang } })}
-          className={`px-12 py-4 font-mono text-sm uppercase tracking-widest transition-all duration-300 ${
-            selectedLang
-              ? 'bg-blue-500 text-black hover:bg-blue-400 shadow-[0_0_30px_rgba(0,149,255,0.5)] cursor-pointer'
-              : 'bg-gray-800 text-gray-600 cursor-not-allowed'
-          }`}
-        >
-          Launch Visualizer →
-        </button>
+        <div className="flex flex-wrap justify-center gap-4">
+          <button
+            onClick={() => selectedLang && navigate('/analyze', { state: { language: selectedLang } })}
+            disabled={!selectedLang}
+            className="px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 disabled:cursor-not-allowed hover:scale-105"
+            style={{
+              background: selectedLang ? 'linear-gradient(135deg, #4F8CFF, #00D4FF)' : '#252C42',
+              color: selectedLang ? '#0B0F19' : '#94A3B8'
+            }}
+          >
+            Start Analyzing
+          </button>
+
+          
+            <button
+            onClick={() => window.open('https://github.com/aksharmistry51-dot/code-visualizer', '_blank')}
+            className="px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:-translate-y-1"
+            style={{ background: '#151B2D', border: '1px solid #252C42', color: '#E5E7EB' }}
+          >
+            View GitHub
+          </button>
+        </div>
+
+        <p className="mt-12 text-sm" style={{ color: '#64748B' }}>
+          JavaScript • Python • Java
+        </p>
       </div>
     </div>
   )
