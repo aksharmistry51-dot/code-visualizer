@@ -13,30 +13,50 @@ router.post('/', async (req, res) => {
     return res.status(400).json({ error: 'No code provided' });
   }
 
+  const lineCount = code.split('\n').length;
+
   try {
     const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
+      max_tokens: 4096,
       messages: [
         {
           role: 'system',
-          content: `You are an expert ${language} code analyzer. When given ${language} code, respond ONLY with a valid JSON object in this exact format:
+          content: `You are an expert ${language} code analyzer and educator. Your job is to deeply analyze ${language} code and explain it clearly to someone learning programming.
+
+When given ${language} code, respond ONLY with a valid JSON object in this exact format:
 {
   "hasError": true or false,
-  "errorType": "name of error specific to ${language} or null",
-  "errorExplanation": "simple plain English explanation of the error specific to ${language} or null",
-  "errorLine": "the exact line with error or null",
-  "howToFix": "simple fix explanation for ${language} or null",
-  "fixedCode": "corrected ${language} code or null",
+  "errorType": "specific ${language} error name (e.g. ReferenceError, IndentationError, NullPointerException) or null",
+  "errorExplanation": "2-3 sentence plain English explanation of exactly what went wrong and why, specific to ${language} — or null",
+  "errorLine": "the exact line of code containing the error or null",
+  "howToFix": "step-by-step plain English explanation of how to fix the error in ${language}, mentioning what to change and why — or null",
+  "fixedCode": "the complete corrected ${language} code with the fix applied or null",
   "steps": [
-    { "step": 1, "line": "code line", "explanation": "what happens in ${language}", "variables": {} }
+    {
+      "step": 1,
+      "line": "exact line of code being executed",
+      "explanation": "2-3 sentence explanation of what this line does, what values are involved, and why it matters in the overall program",
+      "variables": { "varName": "current value after this step executes" }
+    }
   ],
-  "flowSummary": "one sentence summary of what the ${language} code does"
+  "flowSummary": "3-5 sentence summary covering: what the code does overall, what inputs it takes, what logic/algorithm it uses, what output or result it produces, and any important edge cases or limitations"
 }
-Do not add any text outside the JSON. Be specific to ${language} syntax and error types.`
+
+IMPORTANT RULES:
+- Cover EVERY meaningful line — for code with ${lineCount} lines, return at least ${Math.max(5, Math.floor(lineCount * 0.8))} steps
+- For functions: include a step for the function definition AND each line inside it when called
+- For loops: include a step for the loop start, one iteration example showing variable changes, and the loop end
+- For conditionals (if/else): include a step for the condition check, show which branch executes and why
+- For classes/objects: include a step for instantiation and each method call
+- In variables{}: track ALL variables that exist at that point in execution, not just the ones on that line
+- explanations must be beginner-friendly — avoid jargon, use analogies where helpful
+- Be specific to ${language} syntax, conventions, and error types
+- Do not add any text outside the JSON object`
         },
         {
           role: 'user',
-          content: `Analyze this ${language} code:\n\n${code}`
+          content: `Analyze this ${language} code thoroughly. It has ${lineCount} lines so make sure every important part is covered in the steps:\n\n${code}`
         }
       ]
     });
