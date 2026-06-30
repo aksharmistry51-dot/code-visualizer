@@ -68,7 +68,7 @@ function CodeInput({ code, setCode, onAnalyze, loading, language }) {
         <div
           ref={lineNumbersRef}
           className="select-none px-4 py-4 text-right overflow-hidden"
-          style={{ background: '#0F1623', borderRight: '1px solid #252C42', minWidth: '3rem', maxHeight: '24rem' }}
+          style={{ background: '#0F1623', borderRight: '1px solid #252C42', minWidth: '3rem', maxHeight: 'calc(100vh - 280px)' }}
         >
           {lines.map((_, i) => (
             <div key={i} className="text-xs leading-6" style={{ color: '#4B5563', fontFamily: 'JetBrains Mono' }}>{i + 1}</div>
@@ -78,7 +78,7 @@ function CodeInput({ code, setCode, onAnalyze, loading, language }) {
           ref={textareaRef}
           onScroll={handleScroll}
           className="flex-1 bg-transparent outline-none resize-none p-4 leading-6 text-sm min-h-48"
-          style={{ color: '#E5E7EB', fontFamily: 'JetBrains Mono', maxHeight: '24rem', overflowY: 'auto' }}
+          style={{ color: '#E5E7EB', fontFamily: 'JetBrains Mono', maxHeight: 'calc(100vh - 280px)', overflowY: 'auto' }}
           placeholder={`// Paste your ${language || 'JavaScript'} code here...`}
           value={code}
           onChange={(e) => setCode(e.target.value)}
