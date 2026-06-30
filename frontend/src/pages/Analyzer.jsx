@@ -77,14 +77,17 @@ function Analyzer() {
         />
 
         {error && (
-          <div className="mt-4 px-4 py-3 rounded-xl text-sm font-medium" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid #EF4444', color: '#EF4444' }}>
-            {error}
+          <div className="mt-4 px-4 py-3 rounded-xl text-sm font-medium flex items-center gap-2" style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid #EF4444', color: '#EF4444' }}>
+            <span>⚠</span> {error}
           </div>
         )}
 
         {loading && (
           <div className="mt-8 rounded-2xl p-6" style={{ background: '#151B2D', border: '1px solid #252C42' }}>
-            <p className="text-sm font-medium mb-4" style={{ color: '#94A3B8' }}>Analyzing your code...</p>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-5 h-5 rounded-full border-2 animate-spin" style={{ borderColor: '#252C42', borderTopColor: '#4F8CFF' }}></div>
+              <p className="text-sm font-medium" style={{ color: '#94A3B8' }}>Analyzing your code...</p>
+            </div>
             <div className="space-y-3">
               {['Parsing Code', 'Detecting Issues', 'Understanding Logic', 'Building Execution Flow', 'Generating Fixes'].map((step, i) => (
                 <div key={i} className="flex items-center gap-3">
@@ -98,11 +101,47 @@ function Analyzer() {
 
         {result && (
           <div className="mt-8 space-y-4">
-            <FlowSummary summary={result.flowSummary} />
-            {result.hasError && <ErrorPanel result={result} />}
-            {result.hasError && <FixSuggestion result={result} />}
-            <FlowChart steps={result.steps} hasError={result.hasError} />
-            <StepTracker steps={result.steps} />
+
+            {/* Success banner when no error */}
+            {!result.hasError && (
+              <div
+                className="rounded-2xl px-5 py-4 flex items-center gap-3 fade-slide-in"
+                style={{ background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.3)' }}
+              >
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'rgba(34,197,94,0.15)' }}>
+                  <span style={{ color: '#22C55E', fontSize: '16px' }}>✓</span>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold" style={{ color: '#22C55E' }}>No errors found</p>
+                  <p className="text-xs" style={{ color: 'rgba(34,197,94,0.7)' }}>Your code runs cleanly — see the breakdown below</p>
+                </div>
+              </div>
+            )}
+
+            <div className="fade-slide-in" style={{ animationDelay: '0.05s' }}>
+              <FlowSummary summary={result.flowSummary} />
+            </div>
+
+            {result.hasError && (
+              <div className="fade-slide-in" style={{ animationDelay: '0.1s' }}>
+                <ErrorPanel result={result} />
+              </div>
+            )}
+
+            {result.hasError && (
+              <div className="fade-slide-in" style={{ animationDelay: '0.15s' }}>
+                <FixSuggestion result={result} language={langLabels[language]} />
+              </div>
+            )}
+
+            <div className="fade-slide-in" style={{ animationDelay: '0.2s' }}>
+              <FlowChart steps={result.steps} hasError={result.hasError} />
+            </div>
+
+            <div className="fade-slide-in" style={{ animationDelay: '0.25s' }}>
+              <StepTracker steps={result.steps} />
+            </div>
+
           </div>
         )}
       </div>
