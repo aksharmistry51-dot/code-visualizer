@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
 
   try {
     const completion = await groq.chat.completions.create({
-      model: 'llama-3.3-70b-versatile',
+      model: 'moonshotai/kimi-k2-instruct-0905',
       max_tokens: 4096,
       messages: [
         {
