@@ -5,7 +5,7 @@ function detectStepType(line) {
   if (/^(break|return|exit|system\.exit)/.test(trimmed)) return 'exit'
   if (/^(while|for|do\s*{)/.test(trimmed)) return 'loop'
   if (/^(}\s*)?(if|else|switch|case)\b/.test(trimmed)) return 'condition'
-  if (/(scanner|console\.log|system\.out|print\(|input\(|cin|cout)/.test(trimmed)) return 'io'
+  if (/(scanner|console\.log|system\.out|print\(|input\(|cin|cout|printf|scanf)/.test(trimmed)) return 'io'
   return 'default'
 }
 
@@ -98,7 +98,7 @@ function StepTracker({ steps }) {
                 >
                   <div className="text-xs mb-1" style={{ color: isLast ? 'rgba(34,197,94,0.7)' : '#4B5563', fontFamily: 'JetBrains Mono' }}>{key}</div>
                   <div className="text-lg font-semibold" style={{ color: isLast ? '#22C55E' : '#E5E7EB', fontFamily: 'JetBrains Mono' }}>
-                    {JSON.stringify(val)}
+                    {typeof val === 'string' ? val : JSON.stringify(val)}
                   </div>
                 </div>
               )

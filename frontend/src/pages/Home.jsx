@@ -24,7 +24,8 @@ function Home() {
   const languages = [
     { id: 'javascript', label: 'JavaScript', accent: '#F7DF1E' },
     { id: 'python', label: 'Python', accent: '#3776AB' },
-    { id: 'java', label: 'Java', accent: '#F89820' }
+    { id: 'java', label: 'Java', accent: '#F89820' },
+    { id: 'cpp', label: 'C++', accent: '#00599C' }
   ]
 
   return (
@@ -89,8 +90,7 @@ function Home() {
             Start Analyzing
           </button>
 
-          
-            <button
+          <button
             onClick={() => window.open('https://github.com/aksharmistry51-dot/code-visualizer', '_blank')}
             className="px-8 py-3.5 rounded-xl font-semibold text-sm transition-all duration-300 hover:-translate-y-1"
             style={{ background: '#151B2D', border: '1px solid #252C42', color: '#E5E7EB' }}
@@ -100,7 +100,7 @@ function Home() {
         </div>
 
         <p className="mt-12 text-sm" style={{ color: '#64748B' }}>
-          JavaScript • Python • Java
+          JavaScript • Python • Java • C++
         </p>
       </div>
     </div>

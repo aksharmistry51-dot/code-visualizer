@@ -21,13 +21,15 @@ function Analyzer() {
   const langLabels = {
     javascript: 'JavaScript',
     python: 'Python',
-    java: 'Java'
+    java: 'Java',
+    cpp: 'C++'
   }
 
   const langAccents = {
     javascript: '#F7DF1E',
     python: '#3776AB',
-    java: '#F89820'
+    java: '#F89820',
+    cpp: '#00599C'
   }
 
   const handleAnalyze = async () => {

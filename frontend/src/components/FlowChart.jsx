@@ -1,18 +1,9 @@
 function detectStepType(line) {
   const trimmed = line.trim().toLowerCase()
-
-  if (/^(break|return|exit|system\.exit)/.test(trimmed)) {
-    return 'exit'
-  }
-  if (/^(while|for|do\s*{)/.test(trimmed)) {
-    return 'loop'
-  }
-  if (/^(}\s*)?(if|else|switch|case)\b/.test(trimmed)) {
-    return 'condition'
-  }
-  if (/(scanner|console\.log|system\.out|print\(|input\(|cin|cout)/.test(trimmed)) {
-    return 'io'
-  }
+  if (/^(break|return|exit|system\.exit)/.test(trimmed)) return 'exit'
+  if (/^(while|for|do\s*{)/.test(trimmed)) return 'loop'
+  if (/^(}\s*)?(if|else|switch|case)\b/.test(trimmed)) return 'condition'
+  if (/(scanner|console\.log|system\.out|print\(|input\(|cin|cout|printf|scanf)/.test(trimmed)) return 'io'
   return 'default'
 }
 
@@ -68,8 +59,6 @@ function FlowChart({ steps, hasError }) {
         <h2 className="text-xs font-semibold uppercase tracking-widest flex items-center gap-2" style={{ color: '#4F8CFF' }}>
           <span>▶</span> Execution Flow
         </h2>
-
-        {/* Legend */}
         <div className="hidden sm:flex items-center gap-3 flex-wrap">
           {Object.entries(STYLES).filter(([key]) => key !== 'default').map(([key, style]) => (
             <div key={key} className="flex items-center gap-1.5">
@@ -81,7 +70,6 @@ function FlowChart({ steps, hasError }) {
       </div>
 
       <div className="flex flex-col items-center gap-0">
-        {/* Start node */}
         <div className="px-6 py-2 text-xs font-semibold uppercase tracking-widest rounded-full mb-1" style={{ background: 'rgba(0,212,255,0.1)', border: '1px solid rgba(0,212,255,0.4)', color: '#00D4FF' }}>
           ▶ Start
         </div>
@@ -128,7 +116,6 @@ function FlowChart({ steps, hasError }) {
           )
         })}
 
-        {/* End node */}
         <div className="flex flex-col items-center mt-1">
           <div className="w-px h-4" style={{ background: '#252C42' }}></div>
           <div

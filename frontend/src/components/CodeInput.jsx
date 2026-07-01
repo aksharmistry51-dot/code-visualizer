@@ -6,7 +6,7 @@ function CodeInput({ code, setCode, onAnalyze, loading, language }) {
   const textareaRef = useRef(null)
   const lines = code.split('\n')
 
-  const fileName = language === 'Python' ? 'main.py' : language === 'Java' ? 'Main.java' : 'main.js'
+  const fileName = language === 'Python' ? 'main.py' : language === 'Java' ? 'Main.java' :language === 'C++' ? 'main.cpp' : 'main.js'
 
   const handleScroll = () => {
     if (lineNumbersRef.current && textareaRef.current) {
